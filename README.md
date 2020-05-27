@@ -1,2 +1,8 @@
 # MyPractice-Neusoft
- this is my practice from practice in neusoft
+ this is my practice when I study in neusoft
+
+
+
+## import data to mysql from uploading excel
+
+/import-Excel

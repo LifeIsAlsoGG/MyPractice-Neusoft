@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.CourseDao">
+
+    <resultMap type="com.example.demo.entity.Course" id="CourseMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="stuId" column="stu_id" jdbcType="VARCHAR"/>
+        <result property="classroom" column="classroom" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+        <!--插入excel返回是否-->
+    <insert id="importExcel">
+        insert into course
+        <trim prefix = "(" suffix = ")" suffixOverrides = ",">
+            <if test = "id != null">
+                id,
+            </if>
+            <if test = "name != null">
+               name,
+            </if>
+            <if test = "stuId != null">
+                stu_id,
+            </if>
+            <if test = "classroom != null">
+                classroom,
+            </if>
+            <if test = "remark != null">
+                remark,
+            </if>
+        </trim>
+        values
+        <trim prefix = "(" suffix = ")" suffixOverrides = ",">
+            <if test = "id != null">
+                #{id},
+            </if>
+            <if test = "name != null">
+                #{name},
+            </if>
+            <if test = "stuId != null">
+                #{stuId},
+            </if>
+            <if test = "classroom != null">
+                #{classroom},
+            </if>
+            <if test = "remark != null">
+                #{remark},
+            </if>
+        </trim>
+    </insert>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="CourseMap">
+        select
+          id, name, stu_id, classroom, remark
+        from demo.course
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="CourseMap">
+        select
+          id, name, stu_id, classroom, remark
+        from demo.course
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="CourseMap">
+        select
+          id, name, stu_id, classroom, remark
+        from demo.course
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="stuId != null and stuId != ''">
+                and stu_id = #{stuId}
+            </if>
+            <if test="classroom != null and classroom != ''">
+                and classroom = #{classroom}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into demo.course(name, stu_id, classroom, remark)
+        values (#{name}, #{stuId}, #{classroom}, #{remark})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update demo.course
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="stuId != null and stuId != ''">
+                stu_id = #{stuId},
+            </if>
+            <if test="classroom != null and classroom != ''">
+                classroom = #{classroom},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from demo.course where id = #{id}
+    </delete>
+
+</mapper>
