@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.alibaba.excel.EasyExcel;
 import com.example.demo.entity.Course;
 import com.example.demo.excelUtils.ExcelForList;
 import com.example.demo.service.CourseService;
@@ -8,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -38,8 +40,22 @@ public class CourseController {
         return this.courseService.queryById(id);
     }
 
+//    使用easyexcel导入excel到数据库
+    @PostMapping(value="/importExcel")
+    //@RequestMapping(value="/import",method = RequestMethod.POST,produces = { "application/json;charset=UTF-8"})
+    public Object upload(MultipartFile file) throws IOException {
+        Common
+    EasyExcel.read(file.getInputStream(),Course.class,);
+    }
+
+
+
+
+
+
+
 //    导入excel到数据库
-    @RequestMapping(value="/import",method = RequestMethod.POST,produces = { "application/json;charset=UTF-8"})
+/*    @RequestMapping(value="/import",method = RequestMethod.POST,produces = { "application/json;charset=UTF-8"})
     public  String imporCourse(@RequestParam("excelFile") MultipartFile excelFile, HttpSession httpSession) throws IOException {
         InputStream in =excelFile.getInputStream();
         String fileOriginalName=excelFile.getOriginalFilename();
@@ -72,6 +88,6 @@ public class CourseController {
         else{
             return "error!";
         }
-    }
+    }*/
 
 }
