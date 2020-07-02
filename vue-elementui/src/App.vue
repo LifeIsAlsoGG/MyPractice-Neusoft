@@ -5,8 +5,12 @@
 			<el-button @click="startHacking">fuck</el-button>
 		</div>
 
-		<el-table :data="tableData" stripe style="width: 100%" border>
-			<el-table-column prop="index" label="">
+		<el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
+
+
+
+
+			<el-table-column type="selection" width="55">
 			</el-table-column>
 			<el-table-column prop="name" label="书籍名称">
 			</el-table-column>
@@ -14,7 +18,7 @@
 			</el-table-column>
 			<el-table-column prop="price" label="价格">
 			</el-table-column>
-			
+
 			<el-table-column label="购买数量">
 				<template slot-scope="scope">
 					<el-input-number v-model="num" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
@@ -26,10 +30,39 @@
 					<el-button size="mini" type="danger" @click="handleEdit(scope.$index, scope.row)">移除</el-button>
 				</template>
 			</el-table-column>
-
-
-
 		</el-table>
+
+
+
+
+
+
+
+		<el-table :data="tableData" stripe style="width: 60%" border>
+			<el-table-column label="">
+
+			</el-table-column>
+			<el-table-column prop="name" label="书籍名称">
+			</el-table-column>
+			<el-table-column prop="date" label="出版日期">
+			</el-table-column>
+			<el-table-column prop="price" label="价格">
+			</el-table-column>
+
+			<el-table-column label="购买数量">
+				<template slot-scope="scope">
+					<el-input-number v-model="num" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
+				</template>
+			</el-table-column>
+
+			<el-table-column label="操作">
+				<template slot-scope="scope">
+					<el-button size="mini" type="danger" @click="handleEdit(scope.$index, scope.row)">移除</el-button>
+				</template>
+			</el-table-column>
+		</el-table>
+
+
 
 
 
@@ -42,9 +75,10 @@
 
 <script>
 	export default {
+
 		data() {
 			return {
-				num:1,
+				num: 1,
 				tableData: [{
 					index: 1,
 					name: '《java从入门到放弃》',
@@ -69,6 +103,18 @@
 			}
 		},
 		methods: {
+			toggleSelection(rows) {
+				if (rows) {
+					rows.forEach(row => {
+						this.$refs.multipleTable.toggleRowSelection(row);
+					});
+				} else {
+					this.$refs.multipleTable.clearSelection();
+				}
+			},
+			handleSelectionChange(val) {
+				this.multipleSelection = val;
+			},
 			startHacking() {
 				this.$notify({
 					title: 'It works!',
