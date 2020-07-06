@@ -78,12 +78,13 @@
 
 		data() {
 			return {
-				num: 1,
+				num: 10,
 				tableData: [{
 					index: 1,
 					name: '《java从入门到放弃》',
 					date: '2010-10',
-					price: '￥60.00'
+					price: '￥60.00',
+					num: 1,
 				}, {
 					index: 2,
 					name: '《php从入门到放弃》',
